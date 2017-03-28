@@ -73,42 +73,21 @@ signing {
     sign configurations.archives
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: mavenDeployUrl) {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
-
-            pom.project {
-                name 'async-hbase-client'
-                packaging 'jar'
-                description 'An asynchronous Hbase client'
-                url 'https://github.com/jurmous/async-hbase-client'
-
-                scm {
-                    url 'scm:git@github.com:jurmous/async-hbase-client.git'
-                    connection 'scm:git@github.com:jurmous/async-hbase-client.git'
-                    developerConnection 'scm:git@github.com:jurmous/async-hbase-client.git'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'jurmous'
-                        name 'Jurriaan Mous'
-                    }
+task writeNewPom << {
+    pom {
+        project {
+            groupId 'org.mousio'
+            artifactId 'async-hbase-client'
+            version '1.0.0'
+        
+            inceptionYear '2008'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
                 }
             }
         }
-    }
+    }.writeTo("$buildDir/pom.xml")
 }
